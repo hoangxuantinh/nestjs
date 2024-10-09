@@ -1,0 +1,30 @@
+FROM node:20
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN npm install
+COPY . .
+# RUN yarn build
+
+CMD [ "npm", "dev" ]
+
+
+
+# FROM node:22-bookworm-slim as server
+# WORKDIR /app
+# COPY package.json ./
+# RUN yarn install
+# EXPOSE 3000
+# COPY . .
+# RUN yarn build
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,27 @@
 version: '3.8'
 services:
+  api:
+   container_name: api
+   build: 
+    context: .
+    dockerfile: dockerfile
+   ports:
+     - '3000:3000'
+   volumes:
+     - ./:/app
+     - '/app/node_modules'
+   environment:
+    APP_PORT: 3000
+    MONGO_HOST: mongo
+    MONGO_PORT: 27017
+    MONGO_USER: xuantinh
+    MONGO_PASS: mypassword
+    MONGO_DB: mydb
+   depends_on:
+    - mongo
+   restart: unless-stopped
+   command: yarn dev
+
   mongo:
    container_name: mongo
    image: mongo
@@ -8,6 +30,8 @@ services:
    environment:
     MONGO_INITDB_ROOT_USERNAME: xuantinh
     MONGO_INITDB_ROOT_PASSWORD: mypassword
+    MONGO_INITDB_DATABASE: mydb
+
    volumes:
      - mongodbdata:/data/db
 
