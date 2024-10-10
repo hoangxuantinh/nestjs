@@ -3,11 +3,12 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule, validate } from './common/database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UserModule } from './modules/user/user.module';
+import { UserModule } from './api/user/user.module';
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from '@apollo/server/plugin/landingPage/default';
+import { AuthModule } from './api/auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import {
 
     DatabaseModule,
     UserModule,
+    AuthModule
   ],
 })
 export class AppModule {}

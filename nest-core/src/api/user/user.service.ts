@@ -1,13 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UsersRepository } from 'src/common/database/repositories/user.repository';
+import { hashPassword } from 'src/utils/password.util';
 
 @Injectable()
 export class UserService {
   constructor(private readonly usersRepository: UsersRepository) {}
-  create(createUserInput: CreateUserInput) {
-    return this.usersRepository.create(createUserInput)
+  async create(createUserInput: CreateUserInput) {
+    if(await this.usersRepository.findOne({ email: createUserInput.email })) {
+      throw new BadRequestException('Email is already')
+    }
+    const hashPw = hashPassword(createUserInput.password)
+    return this.usersRepository.create({ ...createUserInput, password: hashPw })
   }
 
   async findAll() {
